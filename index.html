@@ -1,12 +1,1075 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<html>
+<title>Daily Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<style>
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: "Oswald"
+    }
+    
+    hr{
+        border-top: 1px solid #aaa;    
+    }
+
+    body {
+        font-family: "Open Sans";
+        background-color: #dddddd;
+    }
+
+    .word-btn {
+        background-color: rgb(240, 240, 240);
+        padding: 8px;
+    }
+
+    .w3-animate-zoomout {
+    animation: animatezoomout 0.6s
+}
+
+@keyframes animatezoomout {
+    from {
+        transform: scale(1)
+    }
+
+    to {
+        transform: scale(0)
+    }
+}
+    
+</style>
+
 <body>
-    test
+
+    <div class="w3-content" style="max-width:1600px">
+
+        <!-- Header -->
+        <header class="w3-container w3-center">
+            <h1 class="w3-xxxlarge"><b><span name="lbDailyTest">Daily Test</span></b></h1>
+            <h3 id="totScore"></h3>
+            <h5 class="w3-opacity" id="date">JAN 8, 2019</h5>
+        </header>
+
+        <!-- Grid -->
+        <div class="w3-row w3-border">
+
+            <!-- Blog entry -->
+            <div class="w3-container w3-margin">
+                <div class="w3-center">
+                    <h3><span name="lbWord">Word</span><span id="wordScore" style="margin-left: 10px;"></span></h3>
+                </div>
+
+                <div class="w3-justify">
+                    <table id='tbVoca' style="width: 100%; border-spacing: 8px;">
+                    </table>
+                    <div id="divWordsExam" style="text-align: center; margin: 20px;">
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div class="w3-container w3-margin">
+                <div class="w3-center">
+                    <h3><span name="lbSentence">Sentence</span><span id="sentenceScore" style="margin-left: 10px;"></span></h3>
+                </div>
+                <div id="divSentences" style="word-break: break-word">
+                </div>
+            </div>
+            <hr>
+            <!-- END BLOG ENTRIES -->
+            <div class="w3-center">
+                <a href="#" class="w3-button w3-red w3-padding-large w3-margin-bottom" onclick="getScore()" id="submit"><span name="lbSubmit">Submit</span></a>
+            </div>
+        </div>
+        <!-- END GRID -->
+        <!-- END w3-content -->
+
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="w3-container w3-dark-grey w3-center" style="padding:32px">
+        <a href="#" onclick="document.getElementById('registerQuizForm').style.display='block'" class="w3-button w3-black w3-padding-large w3-margin-bottom"><span name="lbRegQuiz">New Quiz</span></a>
+        <a href="#" onclick="history.init()" class="w3-button w3-black w3-padding-large w3-margin-bottom"><span name="lbHistory">History</span></a>
+    </footer>
+    <div id="registerQuizForm" class="w3-modal">
+        <div class="w3-modal-content w3-animate-zoom">
+            <div class="w3-container w3-black">
+                <span onclick="document.getElementById('registerQuizForm').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+                <h3><span name="lbRegQuiz">New Quiz</span></h3>
+            </div>
+            <div class="w3-container">
+                <p><span name="lbWord">Word</span></p>
+                <p class="qf-word"><input class="w3-input w3-padding-16 w3-border" type="text" style="width: 45%; display: inline"  placeholder="lbSourceLang" onkeypress="newQuiz.onKeyPressFirst()">
+                <input class="w3-input w3-padding-16 w3-border" type="text" style="width: 45%; display: inline" placeholder="lbTargetLang" onkeypress="newQuiz.onKeyPressSecond()"></p>
+                <p><span name="lbSentence">Sentence</span></p>
+                <p class="qf-sentence"><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="lbTargetLang" onkeypress="newQuiz.onKeyPressSentence()">
+                </p>
+                <p class="w3-center"><button class="w3-button w3-dark-grey" onclick="newQuiz.register();"><span name="lbComplete">Complete</span></button></p>
+            </div>
+        </div>
+    </div>
+    <div id="retrieveHistoryForm" class="w3-modal">
+        <div class="w3-modal-content w3-animate-zoom w3-light-grey">
+            <div class="w3-container w3-black">
+                <span onclick="document.getElementById('retrieveHistoryForm').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+                <h3><span name="lbHistory">History</span></h3>
+            </div>
+            <div class="w3-center">
+                <h6 id="lbHistoryTitle"></h6>
+            </div>
+            <div>
+                <canvas id="myChart" width="400" height="200"></canvas>     
+            </div>
+            <div class="w3-container w3-white w3-margin w3-padding-16" id="wrongAnswer">
+                <h6 class="w3-center" name = "lbWrongTitle">Wrong Answer List</h6> 
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+    <script>
+        let lang = {
+            cd : 'en-US'
+            ,lbDailyTest : "Daily Test"
+            ,lbWord : "Word"
+            ,lbSourceLang : "Korean"
+            ,lbTargetLang : "English"
+            ,lbSentence : "Sentence"
+            ,lbSubmit : "Submit"
+            ,lbRegQuiz : "New Quiz"
+            ,lbHistory : "History"
+            ,lbComplete : "Complete"
+            ,lbResult : "Result"
+            ,lbScore : " score"
+            ,lbHistoryTitle : "You've studied {0} words and {1} sentences."
+            ,lbWrongTitle : "Wrong Answer List"
+            ,lbNextTest : "Next Test"
+            ,msgTestHistory : "There is no test history."
+            ,msgSolveAll : "Please Solve all quizz."
+        }
+        /*let lang = {
+            cd : 'ko-KR'
+            ,lbDailyTest : "매일 쪽지시험"
+            ,lbWord : "단어"
+            ,lbSourceLang : "영어"
+            ,lbTargetLang : "한국어"
+            ,lbSentence : "문장"
+            ,lbSubmit : "제출"
+            ,lbRegQuiz : "새 문제"
+            ,lbHistory : "내역 보기"
+            ,lbComplete : "완료"
+            ,lbResult : "결과"
+            ,lbScore : "점"
+            ,lbHistoryTitle : "지금까지 {0}단어 {1}문장을 학습하셨습니다."
+            ,lbWrongTitle : "오답 목록"
+            ,lbNextTest : "다음 시험까지"
+            ,msgTestHistory : "시험 본 내역이 없습니다."
+            ,msgSolveAll : "모든 문제를 다 풀어주세요."
+        }*/
+        /*let lang = {
+            cd : 'ja-JP'
+            ,lbDailyTest : "毎日のテスト"
+            ,lbWord : "ワード"
+            ,lbSourceLang : "英語"
+            ,lbTargetLang : "日本語"
+            ,lbSentence : "文章"
+            ,lbSubmit : "提出する"
+            ,lbRegQuiz : "新しいクイズ"
+            ,lbHistory : "歴史"
+            ,lbComplete : "コンプリート"
+            ,lbResult : "結果"
+            ,lbScore : " スコア"
+            ,lbHistoryTitle : "あなたは{0}単語と{1}文を勉強しました。"
+            ,lbWrongTitle : "間違った回答リスト"
+            ,lbNextTest : "次のテスト"
+            ,msgTestHistory : "テスト履歴はありません。"
+            ,msgSolveAll : "すべてのクイズを解いてください。"
+        }*/
+        let words = new Array();
+        let sentences = new Array();
+        let quizId = "";
+        const postId = 21;
+        let useVoice = true;
+        let oneday = {
+            isMode : false,
+            hadTest : false,
+            wrongWord : new Object(),
+            wrongSentence : new Object(),
+            initVoca : function(words){
+                    words.forEach(function(item) {
+                    let tbVoca = document.querySelector('#tbVoca');
+                    let tr = document.createElement('tr');
+                    tr.style.height = '40px';
+                    tr.innerHTML = '<td style="width: 40%; text-align: right; padding-right: 10px">' + item[0] + '</td>' +
+                    '<td><div style="height: 50%;border-bottom: 1px solid gray"></div></td>' +
+                    '<td style="width: 40%;padding-left: 10px"><span class="words" style="color : rgb(0,0,0)">'+(oneday.wrongWord[item[0]]?oneday.wrongWord[item[0]]:item[1])+'</span></td>';
+                    tbVoca.appendChild(tr);
+                });
+            },
+            initSentence : function (sentences){
+                let divSentences = document.querySelector('#divSentences');
+                sentences.forEach(function(item){
+                    item = (oneday.wrongSentence[item]?oneday.wrongSentence[item]:item);
+                    let phs = item.split(' ');
+                    let divBlankSt = document.createElement('div');
+                    let divBtnPhs = document.createElement('div');
+                    divBlankSt.classList.add('w3-justify');
+                    divBlankSt.classList.add('w3-center');
+                    divBlankSt.style.marginTop = '40px';
+                    phs.forEach(function(item){
+                        let span = document.createElement('span');
+                        span.innerHTML = item;
+                        divBlankSt.appendChild(span);
+                        divBlankSt.innerHTML = divBlankSt.innerHTML+'&nbsp;&nbsp;';
+                    });
+
+                    divSentences.appendChild(divBlankSt);
+                    divBtnPhs.classList.add('eval-valid');
+                    divBtnPhs.style.textAlign = 'center';
+                    divBtnPhs.style.margin = '20px';
+                    divSentences.appendChild(divBtnPhs);
+                    divSentences.appendChild(document.createElement('hr'));
+                });
+            },
+            setWrongData : function(comments){
+                let lines = comments.split("\n");
+                for(let i = 0; i<lines.length; i++){
+                    if(lines[i].startsWith('w:')){
+                        let line = lines[i].substr(2);
+                        if(""===line.trim()) continue;
+                        let wordvals = line.split('@next@');
+                        for(let j = 0; j<wordvals.length; j++){
+                            let spWordvals = wordvals[j].split(',');
+                            spWordvals[0] = spWordvals[0].trim();
+                            spWordvals[1] = spWordvals[1].trim();
+                            oneday.wrongWord[spWordvals[0]] = spWordvals[1];
+                        }
+                    }else if(lines[i].startsWith('s:')){
+                        let line = lines[i].substr(2);
+                        if(""===line.trim()) continue;
+                        let sentenceVal = line.split('@next@');
+                        for(let j = 0; j<sentenceVal.length; j++){
+                            let spSentencevals = sentenceVal[j].split('@comma@');
+                            spSentencevals[0] = spSentencevals[0].trim();
+                            spSentencevals[1] = spSentencevals[1].trim();
+                            oneday.wrongSentence[spSentencevals[0]] = spSentencevals[1];
+                        }
+                    }
+                }
+            },
+            calculateTimer : function(){
+                let timer = document.createElement('h4');
+                let cnt = 0;
+                
+                document.querySelector('#date').parentElement.appendChild(timer);
+                let x = setInterval(function() {
+                    let today = new Date(); 
+                    let tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    tomorrow.setHours(0);
+                    tomorrow.setMinutes(0);
+                    tomorrow.setSeconds(0);
+                    tomorrow.setMilliseconds(0);
+                    tomorrow = tomorrow.getTime();
+                    let distance = tomorrow - today;
+                    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    let miconds = Math.floor((distance % (1000)) / 100);
+                    timer.innerHTML = lang.lbNextTest +" "+  hours + " : "  + minutes + " : " + seconds + "." + miconds;
+
+                    if (distance < 0) {
+                        clearInterval(x);
+                        window.location.reload();
+                    }
+                }, 100);
+            }
+        };
+
+        window.onload = function() {
+            
+            let date = new Date();
+            document.querySelector('#date').innerHTML = date.getFullYear()+"."+(date.getMonth()+1)+"."+date.getDate();
+            multiLang();
+            retrieveWords();
+        }
+        
+        window.addEventListener('scroll', setDivWordsExamLoc);
+        
+        function multiLang(){
+            for(let key in lang){
+                document.getElementsByName(key).forEach(function(obj){
+                    obj.innerHTML = lang[key];
+                });
+                document.querySelectorAll("input[placeholder="+key+"]").forEach(function(obj){
+                    obj.setAttribute("placeholder",lang[key]);
+                });
+            }
+        }
+        function afterLoad(){
+            words = mixWords(words);
+            sentences = mixSentences(sentences);
+            if(oneday.isMode && oneday.hadTest){
+                oneday.initVoca(words);
+                oneday.initSentence(sentences);
+                oneday.calculateTimer();
+                getScore();
+            }else{
+                initVoca(words);
+                initSentence(sentences);
+            }
+            
+        }
+        
+        function initVoca(words) {
+            
+            words.forEach(function(item) {
+                let tbVoca = document.querySelector('#tbVoca');
+                let tr = document.createElement('tr');
+                tr.style.height = '40px';
+                tr.classList.add('w3-animate-zoom');
+                tr.innerHTML = '<td style="width: 40%; text-align: right; padding-right: 10px">' + item[0] + '</td>' +
+                    '<td><div style="height: 50%;border-bottom: 1px solid gray"></div></td>' +
+                    '<td style="width: 40%;padding-left: 10px"><span class="words" style="color : rgb(0,0,0)">__________</span></td>';
+                tbVoca.appendChild(tr);
+                setTimeout(function(){
+                    addWordsExam(item[1]);
+                    tr.classList.remove('w3-animate-zoom');
+                },1000);
+            });
+
+            setDivWordsExamLoc();
+        }
+
+        function setDivWordsExamLoc(){
+            let scrollLoc = 220 + document.querySelector('#tbVoca').offsetHeight + document.querySelector('#divWordsExam').offsetHeight -window.innerHeight;
+            if(window.scrollY > scrollLoc){
+                let divWordsExam = document.querySelector('#divWordsExam');
+                divWordsExam.style.position = 'static';
+                divWordsExam.style.removeProperty('left');
+                divWordsExam.style.removeProperty('bottom');
+                divWordsExam.style.removeProperty('margin');
+                divWordsExam.style.removeProperty('padding');
+            }else{
+                let divWordsExam = document.querySelector('#divWordsExam');
+                divWordsExam.style.position = 'fixed';
+                divWordsExam.style.padding = (divWordsExam.innerHTML.trim()==''?'0px':'16px');
+                divWordsExam.style.bottom = '0px';
+                divWordsExam.style.left = '0px';
+            }
+        }
+        
+        function initSentence(sentences){
+            let divSentences = document.querySelector('#divSentences');
+            sentences.forEach(function(item){
+                
+                let phs = [];
+                let idxPhs = 0;
+                let items = item.split(' ');
+                let wordsCnt = Math.round(items.length/4); //words count for each button.
+                if(wordsCnt==0) wordsCnt = 1;
+                
+                for(let i = 0; i<items.length; i+=wordsCnt){
+                    phs[idxPhs] = items[i];
+                    for(let j = 1; j<wordsCnt; j++){
+                        if(i<items.length-j){
+                          phs[idxPhs] +=  ' '+items[i+j];
+                        }
+                    }
+                    idxPhs++;
+                }
+                
+                let divBlankSt = document.createElement('div');
+                let divBtnPhs = document.createElement('div');
+                divBlankSt.classList.add('w3-justify');
+                divBlankSt.classList.add('w3-center');
+                divBlankSt.style.marginTop = '40px';
+                phs.forEach(function(item){
+                    let span = document.createElement('span');
+                    span.innerHTML = getBlank(item);
+                    divBlankSt.appendChild(span);
+                    divBlankSt.innerHTML = divBlankSt.innerHTML+'&nbsp;&nbsp;';
+                }); 
+                
+                divSentences.appendChild(divBlankSt);
+                divBtnPhs.classList.add('eval-valid');
+                divBtnPhs.style.textAlign = 'center';
+                divBtnPhs.style.margin = '20px';
+                phs.forEach(function(item){
+                    addSentenceExam(item,divBtnPhs);
+                });
+                divSentences.appendChild(divBtnPhs);
+                if(useVoice && ('webkitSpeechRecognition' in window) ){
+                    let btnVoice = document.createElement('div');
+                    btnVoice.classList.add('w3-button');
+                    btnVoice.classList.add('w3-black');
+                    btnVoice.classList.add('voice');
+                    btnVoice.style.width = '100%';
+                    btnVoice.style.whiteSpace = 'normal';
+                    btnVoice.innerHTML = '<i class="fas fa-microphone " style="font-size: 20pt;vertical-align: middle; margin-right: 10px;"></i>';
+                    btnVoice.addEventListener('click', function(){
+                        voice(this,phs);
+                    },false);
+                    divSentences.appendChild(btnVoice);
+                }
+                divSentences.appendChild(document.createElement('hr'));
+                
+            });
+        }
+        
+        function getBlank(item){
+            let result = '';
+            for(let i = 0; i<item.length; i++){
+                result += '__';
+            }
+            return result;
+        }
+
+        function addWordsExam(text) {
+            var obj = document.createElement('span');
+            obj.classList.add('w3-button');
+            obj.classList.add('word-btn');
+            obj.classList.add('w3-animate-zoom');
+            obj.style.margin = '5px';
+            obj.addEventListener('click', onClickWord);
+            obj.innerHTML = text;
+            var divWordsExam = document.querySelector('#divWordsExam');
+            divWordsExam.classList.add('eval-valid');
+            let ran = Math.floor(Math.random()*100);
+            let ranIdx = ran%divWordsExam.children.length;
+            divWordsExam.insertBefore(obj,divWordsExam.children[ranIdx]);
+            setTimeout(function(){obj.classList.remove('w3-animate-zoom')},150);
+        }
+        
+        function addSentenceExam(text,parent){
+            let span = document.createElement('span');
+            span.classList.add('w3-button');
+            span.classList.add('word-btn');
+            span.classList.add('w3-animate-zoom');
+            span.style.margin = '5px';
+            span.innerHTML = text;
+            span.addEventListener('click', onClickSentence);
+            
+            let ran = Math.floor(Math.random()*100);
+            let ranIdx = ran%parent.children.length;
+            parent.insertBefore(span,parent.children[ranIdx]);
+            setTimeout(function(){span.classList.remove('w3-animate-zoom')},150);
+        }
+
+        function onClickWord() {
+            var blank = document.getElementsByClassName('words');
+            for (let item of blank) {
+                if (item.innerHTML === '__________') {
+                    let oldItem = this;
+                    item.innerHTML = oldItem.innerHTML;
+                    item.classList.add('w3-button');
+                    item.classList.add('word-btn');
+                    item.classList.add('w3-animate-zoom');
+                    item.style.color = oldItem.style.color;
+                    item.addEventListener('click', onClickWordCancel);
+                   
+                    oldItem.classList.add('w3-animate-zoomout');
+                    setTimeout(function(){
+                        oldItem.classList.remove('w3-animate-zoomout');
+                        oldItem.parentElement.removeChild(oldItem);
+                    },150);
+                    
+                    setTimeout(function(){item.classList.remove('w3-animate-zoom')},150);
+                    break;
+                }
+
+            }
+        }
+
+        function onClickWordCancel() {
+            let oldItem = this;
+            let text = oldItem.innerHTML;
+            oldItem.classList.add('w3-animate-zoomout');
+            setTimeout(function(){
+                oldItem.innerHTML = '__________';
+                oldItem.classList.remove('w3-button');
+                oldItem.classList.remove('word-btn');
+                oldItem.removeEventListener('click',onClickWordCancel);
+                oldItem.classList.remove('w3-animate-zoomout');
+            },150);
+            addWordsExam(text);
+
+        }
+        
+        function onClickSentence(ev,order,obj){
+            let clickObj = null;
+            if(order === undefined){
+                clickObj = this;
+                order = 0;
+            }else{
+                clickObj = obj;
+            }
+            const pattern = /^_+$/;
+            let divBlankSentence = clickObj.parentElement.previousSibling;
+            let spans = divBlankSentence.querySelectorAll('span');
+            
+            for(let i = order; i<spans.length; i++){
+                if( pattern.test(spans[i].innerHTML) ){
+                    let oldItem = clickObj;
+                    spans[i].setAttribute('oritext',spans[i].innerHTML);
+                    spans[i].innerHTML = oldItem.innerHTML;
+                    spans[i].classList.add('w3-button');
+                    spans[i].classList.add('word-btn');
+                    spans[i].classList.add('w3-animate-zoom');
+                    spans[i].style.margin = '5px';
+                    spans[i].addEventListener('click',onClickSentenceCancel);
+                    
+                    oldItem.classList.add('w3-animate-zoomout');
+                    setTimeout(function(){
+                        oldItem.classList.remove('w3-animate-zoomout');
+                        oldItem.parentElement.removeChild(oldItem);
+                    },150);
+                    
+                    setTimeout(function(){spans[i].classList.remove('w3-animate-zoom')},150);
+                    break;
+                }
+            }
+        }
+        
+        function onClickSentenceCancel(){
+            let oldItem = this;
+            let oriText = oldItem.getAttribute('oritext');
+            let text = oldItem.innerHTML;
+            oldItem.classList.add('w3-animate-zoomout');
+            setTimeout(function(){
+                oldItem.innerHTML = oriText;
+                oldItem.classList.remove('w3-button');
+                oldItem.classList.remove('word-btn');
+                oldItem.removeEventListener('click',onClickSentenceCancel);
+                oldItem.classList.remove('w3-animate-zoomout');
+            },150);
+            addSentenceExam(text,oldItem.parentElement.nextElementSibling);
+        }
+        
+        function mixWords(words){
+            let result = new Array();
+            let i = 0;
+            while(words.length > 0){
+                let ran = Math.floor(Math.random()*100);
+                let ranIdx = ran%words.length;
+                result[i++] = words[ranIdx];
+                words.splice(ranIdx,1);
+            }
+            return result;
+        }
+        
+        function mixSentences(sentences){
+            let result = new Array();
+            let i = 0;
+            while(sentences.length > 0){
+                let ran = Math.floor(Math.random()*100);
+                let ranIdx = ran%sentences.length;
+                result[i++] = sentences[ranIdx];
+                sentences.splice(ranIdx,1);
+            }
+            return result;
+        }
+        
+        function getScore(){
+            var evalValids = document.querySelectorAll('.eval-valid');
+            for(let i = 0; i<evalValids.length; i++){
+                if(evalValids[i].innerHTML.trim() !== ''){
+                  alert(lang.msgSolveAll);
+                return;  
+                }
+            }
+            
+            let wordScore = wordsEvaluate();
+            let sentenceScore = sentencesEvaluate();
+            let totScore = document.querySelector('#totScore');
+            let totCnt = wordScore[0] + sentenceScore[0];
+            let rightCnt = wordScore[1] + sentenceScore[1];
+            let score = Math.floor( (rightCnt/totCnt)*100 );
+            totScore.innerHTML = lang.lbResult+" : "+score+lang.lbScore;
+            document.querySelector('#submit').style.display = 'none';
+            let evalResult = "t:"+score+","+Math.floor( (wordScore[1]/wordScore[0])*100 )+","+Math.floor( (sentenceScore[1]/sentenceScore[0])*100 )
+                            +"\nw:"+wordScore[2]+"\ns:"+sentenceScore[2];
+            
+            if(!oneday.isMode || !oneday.hadTest) sendResult(evalResult);
+        }
+        
+        function wordsEvaluate(){
+            let wrongAnswer = "";
+            let tbVoca = document.querySelector('#tbVoca');
+            let trs = tbVoca.querySelectorAll('tr');
+            let totCnt = trs.length;
+            let rightCnt = 0;
+            trs.forEach(function(item,index){
+                let tds = item.querySelectorAll('td');
+                let isCorrect = false;
+                item.style.outline = '2px solid #ff9f9f';
+                for(let i = 0; i<words.length; i++){
+                    if(words[i][0] === tds[0].innerHTML
+                      && words[i][1] === tds[2].querySelector('span').innerHTML ){
+                        item.style.outline = '2px solid #3ca73c';
+                        isCorrect = true;
+                        rightCnt++;
+                        break;
+                    }
+                }
+                if(!isCorrect){
+                    let rightAns = document.createElement('span');
+                    rightAns.style.color = 'green';
+                    rightAns.style.fontWeight = 'bold';
+                    rightAns.style.marginLeft = '10px';
+                    rightAns.innerHTML = words[index][1];
+                    tds[2].appendChild(rightAns);
+                    wrongAnswer  = wrongAnswer + "@next@"+words[index][0]+","+tds[2].querySelector('span').innerHTML;
+                }
+                tds[2].querySelector('span').classList.remove('w3-button');
+                tds[2].querySelector('span').classList.remove('word-btn');
+                tds[2].querySelector('span').removeEventListener('click',onClickWordCancel);
+                let wordScore = document.querySelector('#wordScore');
+                let score = Math.floor( (rightCnt/totCnt)*100 );
+                wordScore.style.color = (score>80?'green':'red');
+                wordScore.innerHTML = getEvalMsg(score);
+            });
+            return [totCnt,rightCnt,wrongAnswer.substring(6)];
+        }
+        
+        function sentencesEvaluate(){
+            if(useVoice && ('webkitSpeechRecognition' in window)){
+                let voices = document.querySelectorAll('.voice');
+                for(let i = 0; i<voices.length; i++)
+                    voices[i].remove();
+            }
+
+            let wrongAnswer = "";
+            let divSentences = document.querySelector('#divSentences');
+            let divs = divSentences.querySelectorAll('div');
+            let totCnt = divs.length/2;
+            let rightCnt = 0;
+            for(let idxDiv = 0; idxDiv < divs.length; idxDiv+=2){
+                let item = divs[idxDiv];
+                let isCorrect = false;
+                let spans = item.querySelectorAll('span');
+                let spanText = "";
+                item.style.border = '2px solid #ff9f9f';
+                item.style.padding = '8px';
+                for(let i = 0; i<spans.length; i++){
+                    spanText = spanText + " " + spans[i].innerHTML;
+                    spans[i].classList.remove('w3-button');
+                    spans[i].classList.remove('word-btn');
+                    spans[i].style.margin = '0px';
+                    spans[i].removeEventListener('click',onClickSentenceCancel);
+                }
+                for(let i = 0; i<sentences.length; i++){
+                    if(spanText.substring(1) == sentences[i]){
+                        item.style.border = '2px solid #3ca73c';
+                        isCorrect = true;
+                        rightCnt++;
+                        break;
+                    }
+                }
+                if(!isCorrect){
+                    let rightAns = document.createElement('div');
+                    rightAns.style.color = 'green';
+                    rightAns.style.fontWeight = 'bold';
+                    rightAns.style.marginLeft = '10px';
+                    rightAns.innerHTML = sentences[idxDiv/2];
+                    item.appendChild(rightAns);
+                    wrongAnswer  = wrongAnswer + "@next@"+sentences[idxDiv/2]+"@comma@"+spanText.substring(1);
+                }
+                let sentenceScore = document.querySelector('#sentenceScore');
+                let score = Math.floor( (rightCnt/totCnt)*100 );
+                sentenceScore.style.color = (score>80?'green':'red');
+                sentenceScore.innerHTML = getEvalMsg(score);
+            }
+            return [totCnt,rightCnt,wrongAnswer.substring(6)];
+        }
+        
+        function getEvalMsg(score){
+            if(score == 100) return 'Perfect!';
+            else if(score >90) return 'Excellent!';
+            else if(score >80) return 'Great!';
+            else if(score >60) return 'So so';
+            else if(score >50) return 'Not bad';
+            else return 'Try harder';
+        }
+        
+        function retrieveWords() {
+            jQuery.ajax({
+                    method: "GET",
+                    url: "https://www.tistory.com/apis/comment/list",
+                    data: {
+                        access_token: "c80122b26dd7c701a5e4795e8d7ce444_02e5990259cbd49a6a406602a4903714",
+                        blogName: "5789",
+                        postId: postId,
+                        output: 'json'
+                    }
+                })
+                .done(function(msg) {
+                    let comments = msg.tistory.item.comments;
+                    history.data = comments;
+                    let lines;
+                    for(let i = comments.length-1; i>=0; i--){
+                        if(comments[i].parentId===''){
+                            lines = comments[i].comment.split('\n');
+                            quizId = comments[i].id;
+                            break;
+                        }else if( comments[i].parentId !=='' && oneday.isMode ){
+                            let comYear = parseInt(comments[i].date.substring(0,4));
+                            let comMonth = parseInt(comments[i].date.substring(5,7));
+                            let comDay = parseInt(comments[i].date.substring(8,10));
+                            let date = new Date();
+                            if(comYear == date.getFullYear()
+                            && comMonth == (date.getMonth()+1)
+                            && comDay == date.getDate()){
+                                oneday.hadTest = true;
+                                oneday.setWrongData(comments[i].comment);
+                            }
+                        }
+                    }
+                    for(let i = 0; i<lines.length; i++){
+                        if(lines[i].startsWith('w:')){
+                            let line = lines[i].substr(2);
+                            if(""===line.trim()) continue;
+                            let wordvals = line.split('@next@');
+                            for(let j = 0; j<wordvals.length; j++){
+                                let spWordvals = wordvals[j].split(',');
+                                spWordvals[0] = spWordvals[0].trim();
+                                spWordvals[1] = spWordvals[1].trim();
+                                words[j] = spWordvals;
+                            }
+                        }else if(lines[i].startsWith('s:')){
+                            let line = lines[i].substr(2);
+                            if(""===line.trim()) continue;
+                            sentences = line.split('@next@');
+                        }
+                    }
+                    afterLoad();
+                });
+        }
+
+        function sendResult(evalResult) {
+            jQuery.ajax({
+                    method: "POST",
+                    url: "https://www.tistory.com/apis/comment/write",
+                    data: {
+                        access_token: "c80122b26dd7c701a5e4795e8d7ce444_02e5990259cbd49a6a406602a4903714",
+                        blogName: "5789",
+                        postId: postId,
+                        parentId: quizId,
+                        content: evalResult,
+                        output: 'json'
+                    }
+                })
+                .done(function(msg) {
+                    console.log(msg);
+                });
+        }
+
+        function voice(btn, sentence){
+            btn.style.color = 'red';
+            let oldHtml = btn.querySelector('i').outerHTML;
+            let voiceResult = new Array();
+            let btnPhsOnBlank = btn.previousSibling.previousSibling.querySelectorAll('.word-btn');
+            for(let j = 0; j<btnPhsOnBlank.length; j++){
+                btnPhsOnBlank[j].click();
+                btnPhsOnBlank[j].classList.remove('word-btn');
+            }
+
+            if(!('webkitSpeechRecognition' in window)) jQuery('.fa-microphone').css('display','none');
+            else {
+                var mic = new webkitSpeechRecognition();
+                mic.continuous = true;
+                mic.interimResults = true;
+                mic.lang = lang.cd;
+            }
+            mic.onresult = function(e) {
+                var b = '', c = false;
+                for(var i = e.resultIndex; i < e.results.length; ++i) {
+                    b += e.results[i][0].transcript;
+                    c = e.results[i].isFinal;
+                }
+                btn.innerHTML = oldHtml + b;
+                voiceResult = b.split(' ');
+               
+            };
+            mic.onend = function() {
+                btn.style.setProperty("color", "white", "important");
+                let oriBtnPhsCnt = btn.previousSibling.querySelectorAll('.word-btn').length;
+                for(let i = 0; i<voiceResult.length; i++){
+                    let btnPhs = btn.previousSibling.querySelectorAll('.word-btn');
+                    for(let j = 0; j<btnPhs.length; j++){
+                        if(i+1>oriBtnPhsCnt) break;
+                        if(guessSameWord(voiceResult[i],btnPhs[j].innerHTML)){
+                            btnPhs[j].removeEventListener('click', onClickSentence);
+                            btnPhs[j].addEventListener('click', function(ev){
+                                onClickSentence(ev,i,btnPhs[j]);
+                            });
+                            btnPhs[j].click();
+                            btnPhs[j].classList.remove('word-btn');
+                            break;
+                        }
+                    }
+                }
+            };
+            mic.start();
+            btn.style.setProperty("color", "red", "important");
+        }
+
+
+        function guessSameWord(source, target){
+            let replacedSource = source.toLowerCase()
+            .replace(".","")
+            .replace(",","")
+            .replace("?","")
+            .replace("!","")
+            .replace("'","");
+            let replacedTarget = target.toLowerCase()
+            .replace(".","")
+            .replace(",","")
+            .replace("?","")
+            .replace("!","")
+            .replace("'","");
+
+            if(replacedSource === replacedTarget){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        let newQuiz = {
+            'register' : function (){
+                let popupForm = document.querySelector('#registerQuizForm');
+                let qfWords = popupForm.querySelectorAll('.qf-word');
+                let qfSentences = popupForm.querySelectorAll('.qf-sentence');
+                let wResult = "";
+                let sResult = "";
+                for(let i = 0; i<qfWords.length; i++){
+                    let inputs = qfWords[i].querySelectorAll('input');
+                    let source = inputs[0].value;
+                    let target = inputs[1].value;
+                    if(source!==""&&target!=="")
+                        wResult = wResult + "@next@"+source + "," + target;
+                }
+                wResult = "w:"+wResult.substring(6);
+                
+                for(let i = 0; i<qfSentences.length; i++){
+                    let input = qfSentences[i].querySelector('input');
+                    if(input.value!=="")
+                        sResult = sResult + "@next@"+input.value;
+                }
+                sResult = "s:"+sResult.substring(6);
+
+                jQuery.ajax({
+                    method: "POST",
+                    url: "https://www.tistory.com/apis/comment/write",
+                    data: {
+                        access_token: "c80122b26dd7c701a5e4795e8d7ce444_02e5990259cbd49a6a406602a4903714",
+                        blogName: "5789",
+                        postId: postId,
+                        content: wResult+"\n"+sResult,
+                        output: 'json'
+                    }
+                })
+                .done(function(msg) {
+                    console.log(msg);
+                    window.location.reload();
+                });
+
+            },
+            'onKeyPressFirst' : function(){
+               if(event.keyCode === 13){
+                   let target = event.currentTarget; 
+                   target.nextElementSibling.focus();
+               }
+            },
+            'onKeyPressSecond' : function(){
+                if(event.keyCode === 13){
+                   let target = event.currentTarget; 
+                   let p = document.createElement('p');
+                   p.classList.add('qf-word');
+                   p.innerHTML = '<input class="w3-input w3-padding-16 w3-border" type="text" style="width: 45%; display: inline"  placeholder="'+lang.lbSourceLang+'">\n<input class="w3-input w3-padding-16 w3-border" type="text" style="width: 45%; display: inline" placeholder="'+lang.lbTargetLang+'">';
+                   target.parentElement.parentElement.insertBefore(p,target.parentElement);
+                   let oldInputs = target.parentElement.querySelectorAll('input');
+                   let newInputs = p.querySelectorAll('input');
+                   newInputs[0].value = oldInputs[0].value; 
+                   newInputs[1].value = oldInputs[1].value;
+                   oldInputs[0].value = "";
+                   oldInputs[1].value = "";
+                   oldInputs[0].focus();
+                   let popupForm = document.querySelector('#registerQuizForm');
+                   popupForm.scrollTop = popupForm.scrollHeight;
+               }
+            },
+            'onKeyPressSentence' : function(){
+                if(event.keyCode === 13){
+                   let target = event.currentTarget; 
+                   let p = document.createElement('p');
+                   p.classList.add('qf-sentence');
+                   p.innerHTML = '<input class="w3-input w3-padding-16 w3-border" type="text" placeholder="'+lang.lbTargetLang+'" onkeypress="newQuiz.onKeyPressSentence()">';
+                   target.parentElement.parentElement.insertBefore(p,target.parentElement);
+                   let oldInput = target.parentElement.querySelector('input');
+                   let newInput = p.querySelector('input');
+                   newInput.value = oldInput.value; 
+                   oldInput.value = "";
+                   oldInput.focus();
+                   let popupForm = document.querySelector('#registerQuizForm');
+                   popupForm.scrollTop = popupForm.scrollHeight;
+               }
+            }
+        }
+
+        let history = {
+            data : new Object(),
+            wasOpened : false,
+            init : function(){
+                document.getElementById('retrieveHistoryForm').style.display='block';
+                if(!history.wasOpened){
+                    history.setTitle();
+                    history.showWrongAnswerList();
+                    history.showGraph();
+                    history.wasOpened = true;
+                }
+                
+            },
+            graphLabels : [],
+            graphData : [],
+            showWrongAnswerList : function(){
+                let wrongAnswer = document.querySelector('#wrongAnswer');
+                let wrongWord = new Object();
+                let wrongSentence = new Object();
+                let idxGraphData = 0;
+                let idxGraphLabels = 0;
+                for(let i = history.data.length-1; i >= 0; i--){
+                    if(history.data[i].parentId === ""){
+                        break;
+                    } 
+                    if(history.data[i].parentId !== quizId) continue;
+                    let lines = history.data[i].comment.split('\n');
+                    for(let j = 0; j<lines.length; j++){
+                        if(lines[j].startsWith('w:')){
+                            let line = lines[j].substr(2);
+                            if(""===line.trim()) continue;
+                            let wordvals = line.split('@next@');
+                            for(let k = 0; k<wordvals.length; k++){
+                                let spWordvals = wordvals[k].split(',');
+                                spWordvals[0] = spWordvals[0].trim();
+                                for(let wi = 0; wi < words.length; wi++){
+                                    if(spWordvals[0] === words[wi][0])
+                                    spWordvals[1] = words[wi][1];
+                                }
+                                
+                                wrongWord[spWordvals[0]] = spWordvals[1];
+                            }
+                        }else if(lines[j].startsWith('s:')){
+                            let line = lines[j].substr(2);
+                            if(""===line.trim()) continue;
+                            let sentences = line.split('@next@');
+                            for(let k = 0; k<sentences.length; k++){
+                                let spSentences = sentences[k].split("@comma@");
+                                wrongSentence[spSentences[0]] = "";
+                            }
+                        }else if(lines[j].startsWith('t:')){
+                            let line = lines[j].substr(2);
+                            if(""===line.trim()) continue;
+                            let scores = line.split(",");
+                            let regDate = history.data[i].date.substring(5,11);
+                            history.graphData[idxGraphData++] = scores[0];
+                            history.graphLabels[idxGraphLabels++] = regDate;
+                        }
+                    }
+                }
+
+                if( history.graphData.length === 0 ){
+                    let p = document.createElement('p');
+                    p.classList.add('w3-center');
+                    p.innerText = lang.msgTestHistory;
+                    wrongAnswer.appendChild(p);
+                }
+
+                history.graphData = history.graphData.reverse();
+                history.graphLabels = history.graphLabels.reverse();
+
+                for(let key in wrongWord){
+                    let p = document.createElement('p');
+                    p.innerText = key +" - " + wrongWord[key];
+                    wrongAnswer.appendChild(p);
+                }
+                for(let key in wrongSentence){
+                    let p = document.createElement('p');
+                    p.innerText = key;
+                    wrongAnswer.appendChild(p);
+                }
+            },
+            setTitle : function(){
+                let wordCnt = 0;
+                let sentenceCnt = 0;
+                for(let i = 0; i<history.data.length; i++){
+                    if(history.data[i].parentId !== "") continue;
+                    let lines = history.data[i].comment.split('\n');
+                    for(let j = 0; j<lines.length; j++){
+                        if(lines[j].startsWith('w:')){
+                            let line = lines[j].substr(2);
+                            if(""===line.trim()) continue;
+                            let wordvals = line.split('@next@');
+                            wordCnt+=wordvals.length;
+                        }else if(lines[j].startsWith('s:')){
+                            let line = lines[j].substr(2);
+                            if(""===line.trim()) continue;
+                            let sentences = line.split('@next@');
+                            sentenceCnt+=sentences.length;
+                        }
+                    }
+                }
+                document.querySelector('#lbHistoryTitle').innerText = lang.lbHistoryTitle.format(wordCnt,sentenceCnt);
+            },
+            showGraph : function(){
+                var ctx = document.getElementById("myChart");
+                let ranR = Math.floor(Math.random()*1000)%150+55;
+                let ranG = Math.floor(Math.random()*1000)%150+55;
+                let ranB = Math.floor(Math.random()*1000)%150+55;
+                var myChart = new Chart(ctx
+                    ,{
+                        type: 'line',
+                        data: {
+                            labels: history.graphLabels,
+                            datasets: [{
+                                label: 'Total Score',
+                                data: history.graphData,
+                                backgroundColor: ['rgba('+ranR+', '+ranG+', '+ranB+', 0.2)'],
+                                borderColor: ['rgba('+ranR+', '+ranG+', '+ranB+', 1)'],
+                                fill :false,
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero:false
+                                            }
+                                        }]
+                                    }
+                                }
+                    });
+            }
+        }
+
+        String.prototype.format = function() { a = this;
+            for (k in arguments) { a = a.replace("{" + k + "}", arguments[k]) }
+            return a;
+        }
+    </script>
+
 </body>
 </html>
