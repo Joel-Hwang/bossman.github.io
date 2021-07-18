@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     callback
+    <script>
+        window.onload = () => {
+            debugger;
+        }
+        function getToken() {
+            jQuery.ajax({
+                method: "POST",
+                url: "https://github.com/login/oauth/access_token",
+                data: {
+                    client_id: "48edafff78c51b35a4ea",
+                    redirect_uri: "https://joel-hwang.github.io/voca/callback.html",
+                    client_secret: "d5b569fb70d29309f05f0ef5aa49c5445a149fc8",
+                    code: ""
+                }
+            }).done(function (msg2) {
+
+            });
+
+        }
+    </script>
 </body>
+
 </html>
