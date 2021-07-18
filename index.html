@@ -708,7 +708,7 @@
                     method: "GET",
                     url: "https://www.tistory.com/apis/comment/list",
                     data: {
-                        access_token: "c80122b26dd7c701a5e4795e8d7ce444_02e5990259cbd49a6a406602a4903714",
+                        access_token: "",
                         blogName: "5789",
                         postId: postId,
                         output: 'json'
@@ -762,7 +762,7 @@
                     method: "POST",
                     url: "https://www.tistory.com/apis/comment/write",
                     data: {
-                        access_token: "c80122b26dd7c701a5e4795e8d7ce444_02e5990259cbd49a6a406602a4903714",
+                        access_token: "",
                         blogName: "5789",
                         postId: postId,
                         parentId: quizId,
@@ -872,9 +872,9 @@
 
                 jQuery.ajax({
                     method: "POST",
-                    url: "https://www.tistory.com/apis/comment/write",
+                    url: "https://api.github.com/repos/joel-hwang/voca/issues/1/comments",
                     data: {
-                        access_token: "c80122b26dd7c701a5e4795e8d7ce444_02e5990259cbd49a6a406602a4903714",
+                        access_token: "",
                         blogName: "5789",
                         postId: postId,
                         content: wResult+"\n"+sResult,
