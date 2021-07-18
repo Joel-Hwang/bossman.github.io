@@ -718,14 +718,14 @@
         
         function moveGithub(){
             let url = 'https://github.com/login/oauth/authorize';
-            url.append('?client_id=48edafff78c51b35a4ea');
-            url.append('&redirect_uri='+encodeURIComponent('https://joel-hwang.github.io/voca/callback.html'));
+            url = url+ '?client_id=48edafff78c51b35a4ea';
+            url = url + '&redirect_uri='+encodeURIComponent('https://joel-hwang.github.io/voca/callback.html');
             window.location.href = url;
         }
 
         function retrieveWords() {
             moveGithub();
-            
+
             jQuery.ajax({
                 method: "GET",
                 url: "https://www.tistory.com/apis/comment/list",
