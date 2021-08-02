@@ -724,13 +724,12 @@
         }
 
         function retrieveWords() {
-            moveGithub();
 
             jQuery.ajax({
                 method: "GET",
                 url: "https://www.tistory.com/apis/comment/list",
                 data: {
-                    access_token: "",
+                    access_token: "c80122b26dd7c701a5e4795e8d7ce444_02e5990259cbd49a6a406602a4903714",
                     blogName: "5789",
                     postId: postId,
                     output: 'json'
